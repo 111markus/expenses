@@ -9,12 +9,12 @@ const Expenses = (props) => {
 
   const filterChangeHandler = (selectedYear) => {
     setFilteredYear(selectedYear);
-    console.log(selectedYear);
+    console.log("Valitud aasta:", selectedYear);
   };
 
-  const filteredExpenses = props.expenses.filter(
-    (expense) => expense.date.getFullYear().toString() === filteredYear
-  );
+  const filteredExpenses = props.items.filter((expense) => {
+    return expense.date.getFullYear().toString() === filteredYear;
+  });
 
   return (
     <Card className="expenses">
@@ -23,9 +23,15 @@ const Expenses = (props) => {
         onChangeFilter={filterChangeHandler}
       />
 
-      {filteredExpenses.map((expense, index) => (
-        <ExpensesItem key={index} data={expense} />
-      ))}
+      {filteredExpenses.length === 0 ? (
+        <p style={{ color: "white", textAlign: "center" }}>
+          Sellel aastal kulusid ei leitud.
+        </p>
+      ) : (
+        filteredExpenses.map((item) => (
+          <ExpenseItem key={item.id} expenseData={item} />
+        ))
+      )}
     </Card>
   );
 };
