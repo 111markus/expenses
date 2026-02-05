@@ -12,8 +12,8 @@ const Expenses = (props) => {
     console.log("Valitud aasta:", selectedYear);
   };
 
-  const filteredExpenses = props.items.filter((expense) => {
-    return expense.date.getFullYear().toString() === filteredYear;
+  const filteredExpenses = props.expenses.filter((expense) => {
+    return new Date(expense.date).getFullYear() == filteredYear;
   });
 
   return (

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import Expenses from "./components/Expenses/Expenses.jsx";
 import NewExpense from "./components/NewExpense/NewExpense.jsx";
@@ -10,9 +10,15 @@ const DUMMY_EXPENSES = [
   { id: "e4", date: new Date(2023, 8, 15), title: "Hat", price: 13.59 },
 ];
 
-function App() {
-  // useState
-  const [expenses, setExpenses] = useState(DUMMY_EXPENSES);
+const App = () => {
+  const [expenses, setExpenses] = useState(() => {
+    const expenseFromLS = JSON.parse(localStorage.getItem("expenses"));
+    return expenseFromLS || [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("expenses", JSON.stringify(expenses));
+  }, [expenses]);
 
   const addExpenseHandler = (expense) => {
     setExpenses((prevExpenses) => {
@@ -27,6 +33,6 @@ function App() {
       <Expenses items={expenses} />
     </div>
   );
-}
+};
 
 export default App;
